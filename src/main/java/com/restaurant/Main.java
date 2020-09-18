@@ -6,6 +6,7 @@ import com.restaurant.menu.DessertMenuItem;
 import com.restaurant.menu.DrinkMenuItem;
 import com.restaurant.menu.HotMenuItem;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Main {
@@ -15,6 +16,18 @@ public class Main {
         final Client client = new Client();
 
         restaurant.open();
+
+        LocalDate currentDate = LocalDate.now();
+        System.out.println("Current date : " + currentDate);
+
+        Shift shift;
+        if (currentDate.getDayOfMonth() % 2 == 0) {
+            shift = restaurant.getFirstShift();
+        } else {
+            shift = restaurant.getSecondShift();
+        }
+
+        System.out.println(String.format("%s %s", "Your waiter is: ", shift.getWaiter().getName()));
         restaurant.serveClient(client);
         restaurant.close();
     }
@@ -50,7 +63,7 @@ public class Main {
         menu.addDrinkItem(new DrinkMenuItem(5, "Coffee", 600.0f));
         menu.addDrinkItem(new DrinkMenuItem(6, "Dry wine", 1600.0f));
 
-        menu.addDessertItem(new DessertMenuItem(7,"Napoleon", 800.0f));
+        menu.addDessertItem(new DessertMenuItem(7, "Napoleon", 800.0f));
         menu.addDessertItem(new DessertMenuItem(8, "Ice-cream", 1000.0f));
         return menu;
     }

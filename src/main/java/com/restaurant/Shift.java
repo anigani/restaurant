@@ -1,6 +1,7 @@
 package com.restaurant;
 
 import com.restaurant.employee.Employee;
+import com.restaurant.employee.Waiter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,4 +24,15 @@ public class Shift {
     public void removeEmployee(Employee e) {
         employees.remove(e);
     }
+
+    public Waiter getWaiter() {
+        for (Employee e : employees) {
+            if (e instanceof Waiter) {
+                return (Waiter) e;
+            }
+        }
+
+        return null;
+    }
+
 }

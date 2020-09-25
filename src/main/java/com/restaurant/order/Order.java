@@ -12,7 +12,7 @@ public class Order {
         this.orderItems = new ArrayList<>();
     }
 
-    public void addOrderItem(int orderNumber, MenuItem menuItem, int quantity){
+    public void addOrderItem(int orderNumber, MenuItem menuItem, int quantity) {
         OrderItem orderItem = new OrderItem(orderNumber, menuItem, quantity);
         orderItems.add(orderItem);
     }

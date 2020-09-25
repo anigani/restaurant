@@ -17,17 +17,8 @@ public class Main {
 
         restaurant.open();
 
-        LocalDate currentDate = LocalDate.now();
-        System.out.println("Current date : " + currentDate);
-
-        Shift shift;
-        if (currentDate.getDayOfMonth() % 2 == 0) {
-            shift = restaurant.getFirstShift();
-        } else {
-            shift = restaurant.getSecondShift();
-        }
-
-        System.out.println(String.format("%s %s", "Your waiter is: ", shift.getWaiter().getName()));
+        System.out.println("Current date : " + LocalDate.now());
+        System.out.println(String.format("%s %s", "Your waiter is: ", restaurant.getShift().getWaiter().getName()));
         restaurant.serveClient(client);
         restaurant.close();
     }
@@ -35,17 +26,19 @@ public class Main {
     private static Restaurant createRestaurant() {
         final Restaurant restaurant = new Restaurant("QA Arena", "SoftConstruct", LocalTime.of(10, 0, 0), LocalTime.of(23, 0, 0));
 
-        final Shift firstShift = restaurant.getFirstShift();
+        final Shift firstShift = new Shift();
         firstShift.addEmployee(new Barmen("Karen", 30, Sex.MALE));
         firstShift.addEmployee(new Cook("Petros", 35, Sex.MALE));
         firstShift.addEmployee(new Waiter("Lusine", 35, Sex.FEMALE));
         firstShift.addEmployee(new Manager("Anna", 31, Sex.FEMALE));
+        restaurant.setFirstShift(firstShift);
 
-        final Shift secondShift = restaurant.getSecondShift();
+        final Shift secondShift = new Shift();
         secondShift.addEmployee(new Barmen("Khoren", 30, Sex.MALE));
         secondShift.addEmployee(new Cook("Poxos", 35, Sex.MALE));
         secondShift.addEmployee(new Waiter("Lilit", 32, Sex.FEMALE));
         secondShift.addEmployee(new Manager("Anna", 31, Sex.FEMALE));
+        restaurant.setSecondShift(secondShift);
 
         restaurant.setMenu(createMenu());
         return restaurant;

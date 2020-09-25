@@ -4,6 +4,7 @@ import com.restaurant.menu.*;
 import com.restaurant.order.Order;
 import com.restaurant.order.OrderItem;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Restaurant {
@@ -39,12 +40,14 @@ public class Restaurant {
         return closeTime;
     }
 
-    public Shift getFirstShift() {
-        return firstShift;
-    }
+    public Shift getShift() {
+        LocalDate currentDate = LocalDate.now();
 
-    public Shift getSecondShift() {
-        return secondShift;
+        if (currentDate.getDayOfMonth() % 2 == 0) {
+            return firstShift;
+        } else {
+            return secondShift;
+        }
     }
 
     public Menu getMenu() {
@@ -55,12 +58,29 @@ public class Restaurant {
         this.menu = menu;
     }
 
+    public void setFirstShift(Shift firstShift) {
+        this.firstShift = firstShift;
+    }
+
+    public void setSecondShift(Shift secondShift) {
+        this.secondShift = secondShift;
+    }
+
     public void serveClient(Client client) {
         System.out.println("Serving client ...");
         printMenu(menu);
         Order order = takeOrder(client);
+        prepareOrder(order);
         Bill bill = getBill(order);
         printBill(bill);
+    }
+
+    private void prepareOrder(Order order) {
+        for (OrderItem orderItem : order.getOrderItems()) {
+            if (MenuType.DRINK.equals(orderItem.getType())) {
+                getShift().getBarmen().make(orderItem);
+            }
+        }
     }
 
     private void printMenu(Menu menu) {
@@ -118,7 +138,7 @@ public class Restaurant {
     }
 
     public void close() {
-        System.out.println("Closing at " + closeTime );
+        System.out.println("Closing at " + closeTime);
         System.out.println("================== GOOD BY ==================");
     }
 }
